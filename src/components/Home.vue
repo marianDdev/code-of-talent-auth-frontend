@@ -3,7 +3,7 @@
     class="relative w-3/4 shadow-md sm:rounded-lg flex justify-center items-center mt-10"
   >
     <h3 class="text-base font-semibold leading-7 text-gray-900">
-      Successfully logged in
+      Welcome {{ userName }}
     </h3>
   </div>
   <div
@@ -34,6 +34,17 @@
   </div>
 </template>
 <script setup>
-  let userName = sessionStorage.getItem('userName');
-  let email = sessionStorage.getItem('email');
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
+
+  let userName = '';
+  let email = '';
+
+  if (sessionStorage.getItem('token') !== null) {
+    userName = sessionStorage.getItem('userName');
+    email = sessionStorage.getItem('email');
+  } else {
+    router.push('/login');
+  }
 </script>

@@ -29,9 +29,11 @@
             type="email"
             autocomplete="email"
             v-model="email"
-            :error="errors.email ? errors.email[0] : ''"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
+          <p class="text-red mt-2 mb-2">
+            {{ errors.email ? errors.email : '' }}
+          </p>
         </div>
       </div>
 
@@ -50,9 +52,11 @@
             type="password"
             autocomplete="current-password"
             v-model="password"
-            :error="errors.password ? errors.password[0] : ''"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
+          <p class="text-red">
+            {{ errors.password ? errors.password : '' }}
+          </p>
         </div>
       </div>
 
@@ -60,7 +64,7 @@
         <button
           type="submit"
           @click="login"
-          class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-5"
         >
           Sign in
         </button>
@@ -71,7 +75,6 @@
 <script setup>
   import { ref } from 'vue';
   import axios from 'axios';
-  import { userStore } from '../store/user-store';
   import { useRouter } from 'vue-router';
 
   const router = useRouter();
@@ -87,8 +90,8 @@
       password: password.value,
     });
 
-    if ('errors' in response.data) {
-      errors.value = err.response.errors;
+    if (response.data.errors !== undefined) {
+      errors.value = response.data.errors;
     } else {
       sessionStorage.setItem('token', response.data.token);
       sessionStorage.setItem('userName', response.data.userName);
