@@ -96,7 +96,6 @@
       sessionStorage.setItem('token', response.data.token);
       sessionStorage.setItem('userName', response.data.userName);
       sessionStorage.setItem('email', response.data.email);
-      //console.log(response);
 
       router.push('/');
     }
